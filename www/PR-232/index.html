@@ -12,6 +12,9 @@
   padding: 10px;
   position:relative;
   display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align:center;
   width: 50%;
 }
 
@@ -49,7 +52,7 @@ hr {
       {
         const response = await fetch('https://api.github.com/repos/sTabishAzam/Website/contents/' + path);
         const folders = await response.json();
-		
+    
         let htmlString = `<li>`;
         let index = -1;
         for (let data of folders) 
@@ -82,9 +85,9 @@ hr {
             htmlString += `</div>`;
           }
         }
-		if (index >= 0)
+    if (index >= 0)
         {
-        	htmlString += `<hr>`;
+          htmlString += `<hr>`;
         }
         htmlString += `</li>`;
         return htmlString;
