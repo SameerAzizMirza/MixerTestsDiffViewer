@@ -55,19 +55,19 @@ hr {
         for (let data of folders) 
         {
 
-          let type = ${data.type};
+          let type = data.type;
 
           if (type === "dir")
           {
-            let subfolder = ${data.path};
+            let subfolder = data.path;
             await IterateOverImages(subfolder, htmlString);
           }
           else
           {
             index++;
 
-            let filePath =  ${data.path};
-            let fileName = ${data.name};
+            let filePath =  data.path;
+            let fileName = data.name;
             let imageTitle = filePath.substring(filePath.lastIndexOf(prNumber) + prNumber.length + 1, filePath.lastIndexOf(fileName) - 1);
             let relativePath = filePath.substring(filePath.lastIndexOf(prNumber) + prNumber.length + 1);
              
