@@ -36,21 +36,21 @@ hr {
       let prNumber = "PR-232";
       (async () => {
 
-      let htmlString = '<h2>Difference for ' + prNumber + ' failed tests </h2> <br> <ul>';
+      let htmlString = '<h2>Difference for ' + prNumber + ' failed tests </h2> <br> <ul style="list-style-type:none;">';
 
       let path = 'www/' + prNumber + '/Rendering';
-      await IterateOverImages(path, htmlString);
+      htmlString+= await IterateOverImages(path);
      
       htmlString += '</ul>';
       document.getElementsByTagName('body')[0].innerHTML = htmlString;
       })()
 
-      async function IterateOverImages(path, htmlString) 
+      async function IterateOverImages(path) 
       {
         const response = await fetch('https://api.github.com/repos/sTabishAzam/Website/contents/' + path);
         const folders = await response.json();
-
-        htmlString += `<li>`;
+		
+        let htmlString = `<li>`;
         let index = -1;
         for (let data of folders) 
         {
@@ -60,7 +60,7 @@ hr {
           if (type === "dir")
           {
             let subfolder = data.path;
-            await IterateOverImages(subfolder, htmlString);
+            htmlString+=await IterateOverImages(subfolder);
           }
           else
           {
@@ -78,14 +78,19 @@ hr {
 
             htmlString += `<div class="imgContainer">`;
             htmlString += `   <img src="${relativePath}" alt="Image not available">`;
-            htmlString += `   <div class = "centerText">Bottom Left</div>`;
+            htmlString += `   <div class = "centerText">${fileName}</div>`;
             htmlString += `</div>`;
           }
         }
-
-        htmlString += `<hr>`;
+		if (index >= 0)
+        {
+        	htmlString += `<hr>`;
+        }
         htmlString += `</li>`;
+        return htmlString;
       }
+      
+      
     </script>
   </body>
 </html> 
