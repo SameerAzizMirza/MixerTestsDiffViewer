@@ -39,7 +39,7 @@ hr {
       let htmlString = '<h2>Difference for ' + prNumber + ' failed tests </h2> <br> <ul>';
 
       let path = 'www/' + prNumber + '/Rendering';
-      IterateOverImages(path, htmlString);
+      await IterateOverImages(path, htmlString);
      
       htmlString += '</ul>';
       document.getElementsByTagName('body')[0].innerHTML = htmlString;
@@ -60,7 +60,7 @@ hr {
           if (type === "dir")
           {
             let subfolder = ${data.path};
-            IterateOverImages(subfolder, htmlString);
+            await IterateOverImages(subfolder, htmlString);
           }
           else
           {
@@ -75,7 +75,7 @@ hr {
             {
               htmlString += `<div class = "centerText"> ${imageTitle} </div>`;
             }
-            
+
             htmlString += `<div class="imgContainer">`;
             htmlString += `   <img src="${relativePath}" alt="Image not available">`;
             htmlString += `   <div class = "centerText">Bottom Left</div>`;
