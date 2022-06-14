@@ -45,7 +45,7 @@ hr {
       document.getElementsByTagName('body')[0].innerHTML = htmlString;
       })()
 
-      function IterateOverImages(path, htmlString) 
+      async function IterateOverImages(path, htmlString) 
       {
         const response = await fetch('https://api.github.com/repos/sTabishAzam/Website/contents/' + path);
         const folders = await response.json();
