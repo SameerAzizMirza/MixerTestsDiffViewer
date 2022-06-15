@@ -36,7 +36,10 @@ hr {
 </head>
   <body>
     <script>
-      let prNumber = "PR-232";
+      var loc = window.location.pathname;
+      var dirName = loc.substring(1, loc.lastIndexOf('/'));
+
+      let prNumber = `${dirName}`;
       (async () => {
 
       let htmlString = '<h2>Difference for ' + prNumber + ' failed tests </h2> <br> <ul style="list-style-type:none;">';
