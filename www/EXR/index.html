@@ -17,6 +17,17 @@
   text-align:center;
   width: 50%;
 }
+  
+ .imgContainerExr {
+  float: left;
+  padding: 10px;
+  position:relative;
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align:center;
+  width: 50%;
+}
 
 .centerText {
   text-align:center;
@@ -35,7 +46,7 @@ hr {
 .stretch {
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: relative;
     left:0; right: 0; top:0; bottom: 0;
   }
 
@@ -106,7 +117,7 @@ hr {
             }
             else if (extension === "exr")
             {
-              htmlString += `<div class="imgContainer">`;
+              htmlString += `<div class="imgContainerExr">`;
               htmlString += `   <canvas id="${relativePath}" class="stretch"></canvas>`;
               htmlString += `   <div class = "centerText">${fileName}</div>`;
               htmlString += `</div>`;
