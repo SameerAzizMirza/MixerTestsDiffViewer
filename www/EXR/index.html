@@ -110,8 +110,9 @@ hr {
 
               cache.get(imgUrl)
                 .then((image) => {
+                console.log("Going in!");
                   const imageLayer = new ImageLayer(document.getElementById('image-layer'), image);
-                 
+                  console.log("Success!");
                 })
                 .catch((error) => console.error(error));
             }
