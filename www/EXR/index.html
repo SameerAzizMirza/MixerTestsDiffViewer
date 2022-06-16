@@ -35,6 +35,9 @@ hr {
 </style>
 </head>
   <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.6/umd/react-dom.development.js"></script>
+    <script src="../../scripts/jeri.js"></script>
     <script>
       var loc = window.location.pathname;
       var dirName = loc.substring(1, loc.lastIndexOf('/'));
@@ -77,16 +80,39 @@ hr {
             let fileName = data.name;
             let imageTitle = filePath.substring(filePath.lastIndexOf(prNumber) + prNumber.length + 1, filePath.lastIndexOf(fileName) - 1);
             let relativePath = filePath.substring(filePath.lastIndexOf(prNumber) + prNumber.length + 1);
-             
+            let extension = fileName.split('.').pop();
+
             if (index === 0)
             {
               htmlString += `<div class = "centerText"> ${imageTitle} </div>`;
             }
 
-            htmlString += `<div class="imgContainer">`;
-            htmlString += `   <img src="${relativePath}" alt="Image not available">`;
-            htmlString += `   <div class = "centerText">${fileName}</div>`;
-            htmlString += `</div>`;
+            if (extension === "png")
+            {
+              htmlString += `<div class="imgContainer">`;
+              htmlString += `   <img src="${relativePath}" alt="Image not available">`;
+              htmlString += `   <div class = "centerText">${fileName}</div>`;
+              htmlString += `</div>`;
+            }
+            else if (extension === "exr")
+            {
+              htmlString += `<div class="imgContainer">`;
+              htmlString += `   <canvas id="image-layer" class="stretch"></canvas>`;
+              htmlString += `   <div class = "centerText">${fileName}</div>`;
+              htmlString += `</div>`;
+
+              const ImageLayer = Jeri.ImageLayer;
+
+              const cache = new Jeri.ImageCache();
+              const imgUrl = relativePath;
+
+              cache.get(imgUrl)
+                .then((image) => {
+                  const imageLayer = new ImageLayer(document.getElementById('image-layer'), image);
+                 
+                })
+                .catch((error) => console.error(error));
+            }
           }
         }
     if (index >= 0)
