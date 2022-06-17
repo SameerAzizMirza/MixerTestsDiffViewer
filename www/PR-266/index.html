@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+.imgContainer {
+  float: left;
+  padding: 10px;
+  position:relative;
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align:center;
+  width: 50%;
+}
+
+.centerText {
+  text-align:center;
+  padding: 10px;
+}
+
+hr {
+  border: 1px dashed red;
+  clear:both;
+  display:block;
+  width: 96%;               
+  background-color:#FFFF00;
+  height: 1px;
+}
+
+</style>
+</head>
+  <body>
+    <script>
+      var loc = window.location.pathname;
+      var dirName = loc.substring(1, loc.lastIndexOf('/'));
+      var dirNameArray = dirName.split('/');
+      let prNumber = `${dirNameArray[dirNameArray.length-1]}`;
+      
+      (async () => {
+
+      let htmlString = '<h2>Difference for ' + prNumber + ' failed tests </h2> <br> <ul style="list-style-type:none;">';
+
+      let path = 'www/' + prNumber + '/Rendering';
+      htmlString+= await IterateOverImages(path);
+     
+      htmlString += '</ul>';
+      document.getElementsByTagName('body')[0].innerHTML = htmlString;
+      })()
+
+      async function IterateOverImages(path) 
+      {
+        const response = await fetch('https://api.github.com/repos/sTabishAzam/Website/contents/' + path);
+        const folders = await response.json();
+    
+        let htmlString = `<li>`;
+        let index = -1;
+        for (let data of folders) 
+        {
+
+          let type = data.type;
+
+          if (type === "dir")
+          {
+            let subfolder = data.path;
+            htmlString+=await IterateOverImages(subfolder);
+          }
+          else
+          {
+            index++;
+
+            let filePath =  data.path;
+            let fileName = data.name;
+            let imageTitle = filePath.substring(filePath.lastIndexOf(prNumber) + prNumber.length + 1, filePath.lastIndexOf(fileName) - 1);
+            let relativePath = filePath.substring(filePath.lastIndexOf(prNumber) + prNumber.length + 1);
+             
+            if (index === 0)
+            {
+              htmlString += `<div class = "centerText"> ${imageTitle} </div>`;
+            }
+
+            htmlString += `<div class="imgContainer">`;
+            htmlString += `   <img src="${relativePath}" alt="Image not available">`;
+            htmlString += `   <div class = "centerText">${fileName}</div>`;
+            htmlString += `</div>`;
+          }
+        }
+    if (index >= 0)
+        {
+          htmlString += `<hr>`;
+        }
+        htmlString += `</li>`;
+        return htmlString;
+      }
+      
+      
+    </script>
+  </body>
+</html> 
